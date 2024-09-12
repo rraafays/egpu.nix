@@ -1,13 +1,14 @@
 { config, ... }:
 
 {
+  boot.kernelParams = [ "nvidia.NVreg_PreserveVideoMemoryAllocations=1" ];
+  services.xserver.videoDrivers = [ "nvidia" ];
+
   hardware.opengl = {
     enable = true;
     driSupport = true;
     driSupport32Bit = true;
   };
-
-  services.xserver.videoDrivers = [ "nvidia" ];
 
   hardware.nvidia = {
     open = false;
@@ -20,7 +21,7 @@
     prime = {
       sync.enable = true;
       allowExternalGpu = true;
-      nvidiaBusId = "PCI:PLACEHOLDER!";
+      nvidiaBusId = "PCI:5:0:0";
       amdgpuBusId = "PCI:193:0:0";
     };
   };
