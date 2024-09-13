@@ -11,11 +11,12 @@
   };
 
   hardware.nvidia = {
-    open = false;
+    open = true;
     nvidiaSettings = true;
     modesetting.enable = false;
-    powerManagement.enable = true;
+    powerManagement.enable = false;
     powerManagement.finegrained = false;
+    forceFullCompositionPipeline = true;
     package = config.boot.kernelPackages.nvidiaPackages.stable;
 
     prime = {
