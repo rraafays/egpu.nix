@@ -35,7 +35,10 @@ in
     (self: super: {
       dock = pkgs.writeScriptBin "dock" ''
         #!${pkgs.stdenv.shell}
-        echo 1 | tee /sys/bus/pci/rescan
+        for i in $(seq 1 60); do
+          echo 1 | tee /sys/bus/pci/rescan
+          sleep 1
+        done
       '';
     })
     (self: super: {
