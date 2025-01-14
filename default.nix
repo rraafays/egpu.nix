@@ -25,7 +25,7 @@ in
     prime = {
       sync.enable = true;
       allowExternalGpu = true;
-      nvidiaBusId = "PCI:5:0:0";
+      nvidiaBusId = "PCI:100:0:0";
       amdgpuBusId = "PCI:193:0:0";
     };
   };
@@ -50,8 +50,8 @@ in
 
   security.sudo = {
     extraConfig = ''
-      ${USER} ALL=(ALL) NOPASSWD: ${pkgs.dock}/bin/dock
-      ${USER} ALL=(ALL) NOPASSWD: ${pkgs.undock}/bin/undock
+      ${USER} ALL=(ALL) NOPASSWD: /run/current-system/sw/bin/dock
+      ${USER} ALL=(ALL) NOPASSWD: /run/current-system/sw/bin/undock
     '';
   };
 
