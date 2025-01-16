@@ -7,7 +7,10 @@ let
 in
 {
   boot = {
-    kernelParams = [ "nvidia.NVreg_PreserveVideoMemoryAllocations=1" ];
+    kernelParams = [
+      "pci=assign-busses,hpbussize=0x33,realloc,hpmemsize=128M,hpmemprefsize=1G"
+      "nvidia.NVreg_PreserveVideoMemoryAllocations=1"
+    ];
     kernelModules = [
       "nvidia"
       "nvidia-modeset"
