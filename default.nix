@@ -6,7 +6,15 @@ let
   egpu_pci_id = "05:00.0";
 in
 {
-  boot.kernelParams = [ "nvidia.NVreg_PreserveVideoMemoryAllocations=1" ];
+  boot = {
+    kernelParams = [ "nvidia.NVreg_PreserveVideoMemoryAllocations=1" ];
+    kernelModules = [
+      "nvidia"
+      "nvidia-modeset"
+      "nvidia-drm"
+      "nvidia-uvm"
+    ];
+  };
   services.xserver.videoDrivers = [ "nvidia" ];
 
   hardware.graphics = {
@@ -15,7 +23,7 @@ in
   };
 
   hardware.nvidia = {
-    open = true;
+    open = false;
     nvidiaSettings = true;
     modesetting.enable = false;
     powerManagement.enable = false;
