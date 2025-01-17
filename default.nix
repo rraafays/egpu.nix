@@ -7,17 +7,20 @@ in
 {
   services.xserver.videoDrivers = [ "nvidia" ];
   hardware.nvidia = {
-    modesetting.enable = true;
-    powerManagement.enable = false;
-    powerManagement.finegrained = false;
     open = false;
     nvidiaSettings = true;
+    modesetting.enable = true;
+    forceFullCompositionPipeline = true;
     package = config.boot.kernelPackages.nvidiaPackages.stable;
     prime = {
-      sync.enable = true;
+      offload.enable = true;
       allowExternalGpu = true;
       amdgpuBusId = "PCI:${amdgpuBusIdHex}";
       nvidiaBusId = "PCI:${nvidiaBusIdHex}";
+    };
+    powerManagement = {
+      enable = false;
+      finegrained = false;
     };
   };
 }
