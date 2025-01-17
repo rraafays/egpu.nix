@@ -8,7 +8,11 @@ in
   environment.systemPackages = [
     (pkgs.writeScriptBin "egpu" ''
       #! ${pkgs.bash}/bin/bash
+      if [ $# -eq 0 ]; then
+      exec nvidia-smi
+      else
       exec nvidia-offload "$@"
+      fi
     '')
   ];
 
