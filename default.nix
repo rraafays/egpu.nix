@@ -36,7 +36,6 @@ in
       '';
     })
   ];
-
   security.sudo.extraConfig = ''
     ${USER} ALL=(ALL) NOPASSWD: ${pkgs.rescan}/bin/rescan
   '';
@@ -45,7 +44,6 @@ in
     (pkgs.writeScriptBin "egpu" ''
       #! ${pkgs.bash}/bin/bash
       if [ $# -eq 0 ]; then
-        sudo ${pkgs.rescan}/bin/rescan
         exec nvidia-smi
       else
         exec nvidia-offload "$@"
