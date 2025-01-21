@@ -55,7 +55,7 @@ in
     pkgs.rescan
     (pkgs.writeScriptBin "egpu" ''
       #! ${pkgs.bash}/bin/bash
-      sudo ${pkgs.egpu}/bin/egpu
+      sudo ${pkgs.rescan}/bin/egpu
       if [ $# -eq 0 ]; then
         exec nvidia-smi
       else
