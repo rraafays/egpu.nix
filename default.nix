@@ -5,18 +5,6 @@ let
   amdgpuBusIdHex = "193:0:0";
   nvidiaBusIdHex = "100:0:0";
 in
-with pkgs;
-let
-  patchDesktop =
-    pkg: appName: from: to:
-    lib.hiPrio (
-      pkgs.runCommand "$patched-desktop-entry-for-${appName}" { } ''
-        ${coreutils}/bin/mkdir -p $out/share/applications
-        ${gnused}/bin/sed 's#${from}#${to}#g' < ${pkg}/share/applications/${appName}.desktop > $out/share/applications/${appName}.desktop
-      ''
-    );
-  GPUOffloadApp = pkg: desktopName: patchDesktop pkg desktopName "^Exec=" "Exec=nvidia-offload ";
-in
 {
   services.xserver.videoDrivers = [ "nvidia" ];
   hardware.nvidia = {
@@ -62,6 +50,5 @@ in
         exec nvidia-offload "$@"
       fi
     '')
-    (GPUOffloadApp steam "steam")
   ];
 }
