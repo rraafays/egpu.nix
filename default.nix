@@ -41,13 +41,14 @@ in
   '';
   environment.systemPackages = [
     pkgs.rescan
+    pkgs.glxinfo
     (pkgs.writeScriptBin "egpu" ''
       #! ${pkgs.bash}/bin/bash
       sudo ${pkgs.rescan}/bin/rescan
       if [ $# -eq 0 ]; then
         exec nvidia-smi
       else
-        if lsmod | grep -q '^nvidia'; then
+        if glxinfo | grep -qi NVIDIA; then
           exec nvidia-offload "$@"
         else
           "$@"
