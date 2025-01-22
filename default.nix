@@ -47,7 +47,11 @@ in
       if [ $# -eq 0 ]; then
         exec nvidia-smi
       else
-        exec nvidia-offload "$@"
+        if lsmod | grep -q '^nvidia'; then
+          exec nvidia-offload "$@"
+        else
+          "$@"
+        fi
       fi
     '')
   ];
