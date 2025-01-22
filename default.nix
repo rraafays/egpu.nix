@@ -39,10 +39,10 @@ in
   security.sudo.extraConfig = ''
     ${USER} ALL=(ALL) NOPASSWD: ${pkgs.rescan}/bin/rescan
   '';
-  environment.systemPackages = [
-    pkgs.rescan
-    pkgs.glxinfo
-    (pkgs.writeScriptBin "egpu" ''
+  environment.systemPackages = with pkgs; [
+    rescan
+    glxinfo
+    (writeScriptBin "egpu" ''
       #! ${pkgs.bash}/bin/bash
       sudo ${pkgs.rescan}/bin/rescan
       if [ $# -eq 0 ]; then
