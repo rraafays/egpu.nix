@@ -4,6 +4,7 @@ let
   USER = "raf";
   amdgpuBusIdHex = "193:0:0";
   nvidiaBusIdHex = "100:0:0";
+  nvidiaBusIdDec = "64:00.0";
 in
 {
   services.xserver.videoDrivers = [ "nvidia" ];
@@ -35,12 +36,22 @@ in
         echo 1 > /sys/bus/pci/rescan
       '';
     })
+    (self: super: {
+      undock = pkgs.writeScriptBin "undock" ''
+        #!${pkgs.stdenv.shell}
+        echo 1 | tee /sys/bus/pci/devices/0000:${nvidiaBusIdDec}/remove
+      '';
+    })
   ];
+
   security.sudo.extraConfig = ''
     ${USER} ALL=(ALL) NOPASSWD: ${pkgs.rescan}/bin/rescan
+    ${USER} ALL=(ALL) NOPASSWD: /run/current-system/sw/bin/undock
   '';
+
   environment.systemPackages = with pkgs; [
     rescan
+    undock
     glxinfo
     (writeScriptBin "egpu" ''
       #! ${pkgs.bash}/bin/bash
