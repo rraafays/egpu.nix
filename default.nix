@@ -18,10 +18,7 @@ in
       amdgpuBusId = "PCI:${amdgpuBusIdHex}";
       nvidiaBusId = "PCI:${nvidiaBusIdHex}";
       allowExternalGpu = true;
-      offload = {
-        enable = true;
-        enableOffloadCmd = true;
-      };
+      sync.enable = true;
     };
     powerManagement = {
       enable = false;
@@ -46,25 +43,12 @@ in
 
   security.sudo.extraConfig = ''
     ${USER} ALL=(ALL) NOPASSWD: ${pkgs.rescan}/bin/rescan
-    ${USER} ALL=(ALL) NOPASSWD: /run/current-system/sw/bin/undock
+    ${USER} ALL=(ALL) NOPASSWD: ${pkgs.rescan}/bin/undock
   '';
 
   environment.systemPackages = with pkgs; [
     rescan
     undock
     glxinfo
-    (writeScriptBin "egpu" ''
-      #! ${pkgs.bash}/bin/bash
-      sudo ${pkgs.rescan}/bin/rescan
-      if [ $# -eq 0 ]; then
-        exec nvidia-smi
-      else
-        if glxinfo | grep -qi NVIDIA; then
-          exec nvidia-offload "$@"
-        else
-          "$@"
-        fi
-      fi
-    '')
   ];
 }
