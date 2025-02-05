@@ -21,8 +21,8 @@ in
       sync.enable = true;
     };
     powerManagement = {
-      enable = false;
-      finegrained = false;
+      enable = true;
+      finegrained = true;
     };
   };
 
